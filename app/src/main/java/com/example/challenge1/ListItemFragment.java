@@ -42,6 +42,7 @@ public class ListItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        adpater.setItems(model.getItems());
         View root = inflater.inflate(R.layout.fragment_list_item,container,false);
         locItemViewList = root.findViewById(R.id.locItemsViewList);
         locItemViewList.setHasFixedSize(true);

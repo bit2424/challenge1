@@ -62,8 +62,8 @@
         android:id="@+id/addImageBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="36dp"
         android:src="@android:drawable/ic_menu_add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -82,11 +82,14 @@
         android:id="@+id/addLocationBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="8dp"
         android:text="Registrar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addImageBT" />
+        app:layout_constraintTop_toBottomOf="@+id/addImageBT"
+        app:layout_constraintVertical_bias="0.347" />
 
     <TextView
         android:id="@+id/textView5"
@@ -94,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="28dp"
-        android:text="Ubicar en el mapa"
+        android:text="Ubicar una nueva dirección en el mapa:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLocName" />
 
@@ -118,4 +121,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="0.2" />
+
+    <ImageView
+        android:id="@+id/preViewImg"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/addLocationBT"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>

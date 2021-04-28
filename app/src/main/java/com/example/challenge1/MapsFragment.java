@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -29,13 +30,15 @@ public class MapsFragment extends Fragment {
     private LocationManager manager;
     private OnChangeFragment observer;
     private AppModel model;
+    private MarkerOptions currentPosition;
 
     GoogleMap.OnMapClickListener clickListener = new GoogleMap.OnMapClickListener() {
         @Override
         public void onMapClick(LatLng pos) {
 
             if(model.isCreating()){
-                Toast toast = Toast.makeText(getContext(), "Seleccionaste: "+String.valueOf(pos.latitude)+" , "+String.valueOf(pos.longitude), Toast.LENGTH_SHORT);
+                //Toast toast = Toast.makeText(getContext(), "Seleccionaste: "+String.valueOf(pos.latitude)+" , "+String.valueOf(pos.longitude), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "Haz seleccionado una nueva ubicación!", Toast.LENGTH_SHORT);
                 toast.show();
                 nMap.clear();
                 nMap.addMarker(new MarkerOptions().position(pos).title("Nueva Locación"));
@@ -117,6 +120,8 @@ public class MapsFragment extends Fragment {
         if(location != null) {
             LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
             updateLocation(myPos);
+            model.getNewItem().setMyLocation(myPos);
+            nMap.addMarker(new MarkerOptions().position(myPos).title("Ubicación Actual").icon(BitmapDescriptorFactory.defaultMarker(50)));
         }
     }
 

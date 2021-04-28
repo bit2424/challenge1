@@ -9,7 +9,7 @@ public class AppModel {
     private boolean creating;
 
     public AppModel() {
-        newItem = new LocationItem(null,null,0);
+        newItem = new LocationItem(null,"No seleccionada","No dir",0);
         items = new ArrayList<>();
         creating = false;
     }
