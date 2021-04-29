@@ -81,7 +81,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="36dp"
+        android:layout_marginBottom="24dp"
         android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toTopOf="@+id/addLocationBT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -100,20 +102,16 @@
     <Button
         android:id="@+id/addLocationBT"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="32dp"
+        android:color="#E1493F"
         android:fontFamily="@font/roboto_light"
         android:text="Registrar"
         app:cornerRadius="10dp"
-        android:color="#E1493F"
         app:iconTint="#9E1717"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/takeImageBT"
-        app:layout_constraintVertical_bias="0.347"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -167,8 +165,10 @@
         android:id="@+id/addImageBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/addLocationBT"
         app:layout_constraintStart_toEndOf="@+id/takeImageBT"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:srcCompat="@android:drawable/ic_menu_add" />
