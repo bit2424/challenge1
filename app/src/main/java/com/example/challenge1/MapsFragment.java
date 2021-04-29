@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapsFragment extends Fragment {
 
     private LocItemAdapter adpater;
@@ -37,6 +39,9 @@ public class MapsFragment extends Fragment {
     private AppModel model;
     private MarkerOptions currentPosition;
     private ConstraintLayout closestLocationLayout;
+    private TextView closestName;
+    private TextView closestAddress;
+    private ImageView closestImage;
 
     GoogleMap.OnMapClickListener clickListener = new GoogleMap.OnMapClickListener() {
         @Override
@@ -70,6 +75,9 @@ public class MapsFragment extends Fragment {
         public void onLocationChanged(Location location) {
             LatLng myPos = new LatLng(location.getLatitude(),location.getLongitude());
             //Here is where I ask my distance between stored locations
+            if(!model.getItems().isEmpty()) {
+                updateDistances(myPos);
+            }
             updateLocation(myPos,12);
         }
 
@@ -88,6 +96,23 @@ public class MapsFragment extends Fragment {
 
         }
     };
+
+    //when this method is called it has to have elelments in the arrayList of items
+    private void updateDistances(LatLng myPos) {
+
+        ArrayList<LocationItem> items = model.getItems();
+        LocationItem closest = items.get(0);
+        int n = items.size();
+        for (int i = 0; i < n; i++) {
+            if(closest.getUserDistance()>items.get(i).getUserDistance()) closest = items.get(i);
+            items.get(i).setUserDistance(getDistance(myPos.latitude,myPos.longitude,items.get(i).getMyLocation().latitude,items.get(i).getMyLocation().longitude));
+        }
+
+        if(closest.getUserDistance()<= 0.1){
+            showBottomLayout(closest);
+        }
+        model.setUserLocation(myPos);
+    }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -119,6 +144,9 @@ public class MapsFragment extends Fragment {
 
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         closestLocationLayout = getActivity().findViewById(R.id.closestLocationLayout);
+        closestName = ((TextView)getActivity().findViewById(R.id.closestLocationName));
+        closestAddress = ((TextView)getActivity().findViewById(R.id.closestLocationAddress));
+        closestImage = ((ImageView)getActivity().findViewById(R.id.closestLocationIMG));
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -157,6 +185,19 @@ public class MapsFragment extends Fragment {
                 model.getNewItem().setMyLocation(myPos);
                 nMap.clear();
                 nMap.addMarker(new MarkerOptions().position(myPos).title("Ubicación Actual").icon(BitmapDescriptorFactory.defaultMarker(50)));
+
+
+                //Updates all the places
+                ArrayList<LocationItem> items = model.getItems();
+                if(!items.isEmpty()){
+                    int n = items.size();
+                    for (int i = 0; i < n; i++) {
+                        nMap.addMarker(new MarkerOptions().position(items.get(i).getMyLocation()).title(items.get(i).getName()).icon(BitmapDescriptorFactory.defaultMarker(75)));
+                    }
+                    updateDistances(model.getUserLocation());
+                }
+
+
             }else{
                 showToast("Por favor enciende tu GPS!",Toast.LENGTH_SHORT);
 
@@ -169,13 +210,13 @@ public class MapsFragment extends Fragment {
 
     private void showBottomLayout(LocationItem item) {
         closestLocationLayout.setVisibility(View.VISIBLE);
-        ((TextView)getActivity().findViewById(R.id.closestLocationName)).setText(item.getName());
-        ((TextView)getActivity().findViewById(R.id.closestLocationAddress)).setText(item.getAddress());
+        closestName.setText(item.getName());
+        closestAddress.setText(item.getAddress());
         Bitmap image = BitmapFactory.decodeFile(item.getImageSrc());
         Bitmap thumbnail = Bitmap.createScaledBitmap(
                 image,image.getWidth()/4, image.getHeight()/4,true
         );
-        ((ImageView)getActivity().findViewById(R.id.closestLocationIMG)).setImageBitmap(thumbnail);
+        closestImage.setImageBitmap(thumbnail);
 
     }
 
@@ -195,5 +236,23 @@ public class MapsFragment extends Fragment {
     private void showToast(String message, int length){
         Toast toast = Toast.makeText(getContext(), message, length);
         toast.show();
+    }
+
+    private double getDistance(double lat1, double lon1, double lat2, double lon2) {
+        double R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(lat2-lat1);  // deg2rad below
+        double dLon = deg2rad(lon2-lon1);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c; // Distance in km
+        return d;
+    }
+
+    private double deg2rad( double deg) {
+        return deg * (Math.PI/180);
     }
 }

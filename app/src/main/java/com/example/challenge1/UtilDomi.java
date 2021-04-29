@@ -32,7 +32,7 @@ public class UtilDomi {
                 if ("primary".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
-                
+
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {

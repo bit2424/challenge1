@@ -89,11 +89,12 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
     private void changeFragment(int itemId) {
         switch (itemId){
             case R.id.newLocatrion:
-                if(model.getState() == model.STATE_E_LOOKING){
+                if(model.getState() == model.STATE_E_LOOKING || model.getState() == model.STATE_G_LOOKING){
                     closestLocationLayout.setVisibility(View.GONE);
                     model.setState(model.STATE_G_LOOKING);
                 }
                 if(model.getState() == model.STATE_CREATING){
+                    closestLocationLayout.setVisibility(View.GONE);
                     addMapAddress.setVisibility(View.GONE);
                     model.setState(model.STATE_G_LOOKING);
                 }
@@ -101,11 +102,12 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
                 break;
 
             case R.id.listLocation:
-                if(model.getState() == model.STATE_E_LOOKING){
+                if(model.getState() == model.STATE_E_LOOKING || model.getState() == model.STATE_G_LOOKING){
                     closestLocationLayout.setVisibility(View.GONE);
                     model.setState(model.STATE_G_LOOKING);
                 }
                 if(model.getState() == model.STATE_CREATING){
+                    closestLocationLayout.setVisibility(View.GONE);
                     addMapAddress.setVisibility(View.GONE);
                     model.setState(model.STATE_G_LOOKING);
                 }

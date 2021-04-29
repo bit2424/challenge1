@@ -19,6 +19,7 @@ public class LocationItem {
         this.address = address;
         this.score = score;
         this.imageSrc = imageSrc;
+
     }
 
     public String getName() {

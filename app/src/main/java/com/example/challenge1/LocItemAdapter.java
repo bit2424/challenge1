@@ -50,12 +50,13 @@ public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> implements
         }*/
         holder.setItem(item);
         holder.getLocationName().setText(item.getName());
-        holder.getLocationScore().setText(String.valueOf(item.getScore()+1));
+        holder.getLocationScore().setText(String.valueOf(item.getScore()));
         Bitmap image = BitmapFactory.decodeFile(item.getImageSrc());
         Bitmap thumbnail = Bitmap.createScaledBitmap(
                 image,image.getWidth()/4, image.getHeight()/4,true
         );
         holder.getLocationImg().setImageBitmap(thumbnail);
+        holder.getDistance().setText(String.format("%.2f",item.getUserDistance()));
     }
 
     @Override
