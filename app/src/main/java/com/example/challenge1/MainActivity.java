@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
                 }
 
         );
+
     }
 
     private void changeFragment(int itemId) {
@@ -115,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
                 break;
 
             case R.id.mapLocation:
+                if(model.getState() == model.STATE_G_LOOKING){
+                    closestLocationLayout.setVisibility(View.GONE);
+                }
                 showFragment(mapsFragment);
                 break;
 

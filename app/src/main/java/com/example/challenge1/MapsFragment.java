@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements View.OnClickListener {
 
     private LocItemAdapter adpater;
     private GoogleMap nMap;
@@ -42,6 +43,11 @@ public class MapsFragment extends Fragment {
     private TextView closestName;
     private TextView closestAddress;
     private ImageView closestImage;
+    private ImageButton s1BT;
+    private ImageButton s2BT;
+    private ImageButton s3BT;
+    private ImageButton s4BT;
+    private ImageButton s5BT;
 
     GoogleMap.OnMapClickListener clickListener = new GoogleMap.OnMapClickListener() {
         @Override
@@ -57,6 +63,7 @@ public class MapsFragment extends Fragment {
                 model.setState(model.STATE_G_LOOKING);
                 closestLocationLayout.setVisibility(View.GONE);
                 model.updateDistance();
+                nMap.addMarker(new MarkerOptions().position(pos).title("Para salir de esta vista da click en el mapa!"));
                 setInitialPos();
             }
 
@@ -108,7 +115,8 @@ public class MapsFragment extends Fragment {
             items.get(i).setUserDistance(getDistance(myPos.latitude,myPos.longitude,items.get(i).getMyLocation().latitude,items.get(i).getMyLocation().longitude));
         }
 
-        if(closest.getUserDistance()<= 0.1){
+        if(closest.getUserDistance()<= 0.1 && model.getState() == model.STATE_G_LOOKING){
+            model.setShwItem(closest);
             showBottomLayout(closest);
         }
         model.setUserLocation(myPos);
@@ -122,7 +130,7 @@ public class MapsFragment extends Fragment {
             nMap = googleMap;
 
             manager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    10000,
+                    100000,
                     2,
                     myLocationListener);
 
@@ -147,6 +155,17 @@ public class MapsFragment extends Fragment {
         closestName = ((TextView)getActivity().findViewById(R.id.closestLocationName));
         closestAddress = ((TextView)getActivity().findViewById(R.id.closestLocationAddress));
         closestImage = ((ImageView)getActivity().findViewById(R.id.closestLocationIMG));
+        s1BT = getActivity().findViewById(R.id.s1BT);
+        s2BT = getActivity().findViewById(R.id.s2BT);
+        s3BT = getActivity().findViewById(R.id.s3BT);
+        s4BT = getActivity().findViewById(R.id.s4BT);
+        s5BT = getActivity().findViewById(R.id.s5BT);
+        s1BT.setOnClickListener(this);
+        s2BT.setOnClickListener(this);
+        s3BT.setOnClickListener(this);
+        s4BT.setOnClickListener(this);
+        s5BT.setOnClickListener(this);
+
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -189,10 +208,11 @@ public class MapsFragment extends Fragment {
 
                 //Updates all the places
                 ArrayList<LocationItem> items = model.getItems();
+
                 if(!items.isEmpty()){
                     int n = items.size();
                     for (int i = 0; i < n; i++) {
-                        nMap.addMarker(new MarkerOptions().position(items.get(i).getMyLocation()).title(items.get(i).getName()).icon(BitmapDescriptorFactory.defaultMarker(75)));
+                        nMap.addMarker(new MarkerOptions().position(items.get(i).getMyLocation()).title(items.get(i).getName()).icon(BitmapDescriptorFactory.defaultMarker(200)));
                     }
                     updateDistances(model.getUserLocation());
                 }
@@ -254,5 +274,28 @@ public class MapsFragment extends Fragment {
 
     private double deg2rad( double deg) {
         return deg * (Math.PI/180);
+    }
+
+    @Override
+    public void onClick(View v) {
+        ArrayList<ImageButton> buttons = new ArrayList<>();
+        buttons.add(s1BT);
+        buttons.add(s2BT);
+        buttons.add(s3BT);
+        buttons.add(s4BT);
+        buttons.add(s5BT);
+        int n = buttons.size();
+        int searching = v.getResources().getResourceEntryName(v.getId()).charAt(1) - 48;
+        for(int i = 1; i<=n; i++){
+            ImageButton btn = buttons.get(i-1);
+            if(i <= searching){
+                btn.setImageResource(R.drawable.star_icon_bright);
+                if(i == searching){
+                    model.getShwItem().setScore(i);
+                }
+            }else{
+                btn.setImageResource(R.drawable.star_icon_low);
+            }
+        }
     }
 }

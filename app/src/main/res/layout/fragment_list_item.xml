@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="140dp"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-        tools:layout_editor_absoluteX="16dp"
-        android:outlineAmbientShadowColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@+id/searchPlace"
+        tools:layout_editor_absoluteX="16dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/searchPlace"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -38,8 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Lugares Almacenados"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        android:theme="@style/Theme.Challenge1.TextView"/>
+        android:theme="@style/Theme.Challenge1.TextView"
+        app:layout_constraintBottom_toTopOf="@+id/searchPlace" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

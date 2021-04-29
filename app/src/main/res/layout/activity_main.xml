@@ -24,12 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="112dp"
+            android:background="@drawable/star_icon_low"
             app:layout_constraintEnd_toStartOf="@+id/s2BT"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@drawable/star_icon_low" />
 
         <ImageButton
             android:id="@+id/s4BT"
@@ -37,11 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="112dp"
+            android:background="@drawable/star_icon_low"
             app:layout_constraintEnd_toStartOf="@+id/s5BT"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/s3BT"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@drawable/star_icon_low" />
 
         <ImageButton
             android:id="@+id/s5BT"
@@ -49,11 +51,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="112dp"
+            android:background="@drawable/star_icon_low"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/s4BT"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@drawable/star_icon_low" />
 
         <ImageButton
             android:id="@+id/s2BT"
@@ -61,11 +64,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="112dp"
+            android:background="@drawable/star_icon_low"
             app:layout_constraintEnd_toStartOf="@+id/s3BT"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/s1BT"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@drawable/star_icon_low" />
 
         <ImageButton
             android:id="@+id/s3BT"
@@ -73,11 +77,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="112dp"
+            android:background="@drawable/star_icon_low"
             app:layout_constraintEnd_toStartOf="@+id/s4BT"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/s2BT"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@drawable/star_icon_low" />
 
         <TextView
             android:id="@+id/closestLocationName"
@@ -95,10 +100,10 @@
             android:id="@+id/closestLocationAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
             android:textColor="#E1DDDD"
+            app:layout_constraintEnd_toStartOf="@+id/closestLocationIMG"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/closestLocationName" />
 
@@ -135,7 +140,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.915" />
+            app:layout_constraintVertical_bias="0.072" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

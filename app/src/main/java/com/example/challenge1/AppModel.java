@@ -18,7 +18,7 @@ public class AppModel {
 
     public AppModel() {
         newItem = new LocationItem(null,"No seleccionada","No dir",0);
-        shwItem = new LocationItem(null,"No seleccionada","No dir",0);
+        newItem = new LocationItem(null,"No seleccionada","No dir",0);
         items = new ArrayList<>();
         state = STATE_G_LOOKING;
         imgIdentifier = 0;
