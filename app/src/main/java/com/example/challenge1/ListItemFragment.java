@@ -1,14 +1,20 @@
 package com.example.challenge1;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +28,7 @@ public class ListItemFragment extends Fragment implements  OnLocItemAction{
     private LocItemAdapter adpater;
     private OnChangeFragment observer;
     private AppModel model;
+    private EditText searchPlace;
 
 
     public ListItemFragment() {
@@ -48,12 +55,31 @@ public class ListItemFragment extends Fragment implements  OnLocItemAction{
         locItemViewList = root.findViewById(R.id.locItemsViewList);
         locItemViewList.setHasFixedSize(true);
 
+        searchPlace = root.findViewById(R.id.searchPlace);
+        searchPlace.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adpater.filter(s.toString(),model.getItems());
+            }
+        });
+
         layoutManager = new LinearLayoutManager(root.getContext());
         locItemViewList.setLayoutManager(layoutManager);
         locItemViewList.setAdapter(adpater);
 
         return root;
     }
+
 
 
     public void setModel(AppModel model) {  this.model = model; }

@@ -88,4 +88,17 @@ public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> implements
     public void onViewLocation(LocationItem item) {
         obsever.onViewLocation(item);
     }
+
+
+    public void filter(String text, ArrayList<LocationItem> nItems){
+        ArrayList<LocationItem> filteredList = new ArrayList<>();
+
+        for (LocationItem item : nItems){
+            if(item.getName().toLowerCase().contains(text)){
+                filteredList.add(item);
+            }
+        }
+        items = filteredList;
+        notifyDataSetChanged();
+    }
 }
