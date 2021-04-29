@@ -1,16 +1,21 @@
 package com.example.challenge1;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -96,6 +101,15 @@ public class NewLocationFragment extends Fragment implements View.OnClickListene
         takeImageBT.setOnClickListener(this);
 
         return root;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        System.out.println(context);
+        AppCompatActivity activity = (AppCompatActivity)context;
+        activity.getSupportActionBar()
+                .setTitle("Places");
     }
 
     @Override

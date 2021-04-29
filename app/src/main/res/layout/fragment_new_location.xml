@@ -3,28 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#303030">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:hyphenationFrequency="normal"
         android:text="Agregar un sitio"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintVertical_bias="0.073"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="32dp"
-        android:text="Instruciones"
+        android:layout_width="299dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="En esta sección puede inscribir un sitio de la ciudad. Nombre el lugar y luego con el boton de mapa, seleccione un punto en el mapa"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -32,19 +41,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="160dp"
+        android:fontFamily="@font/roboto_light"
         android:text="Datos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <EditText
         android:id="@+id/inputLocName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="250dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
+        android:fontFamily="@font/roboto_light"
         android:hint="Nombre"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:hyphenationFrequency="normal"
         android:inputType="textPersonName"
+        android:theme="@style/Theme.Challenge1.TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -52,8 +68,9 @@
         android:id="@+id/addAddressBT"
         android:layout_width="86dp"
         android:layout_height="78dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="64dp"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="72dp"
         android:src="@drawable/map_pointer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLocName" />
@@ -74,9 +91,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/roboto_light"
         android:text="Seleccionar imagen"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addAddressBT" />
+        app:layout_constraintTop_toBottomOf="@+id/addAddressBT"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <Button
         android:id="@+id/addLocationBT"
@@ -85,11 +104,16 @@
         android:layout_marginStart="140dp"
         android:layout_marginTop="48dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_light"
         android:text="Registrar"
+        app:cornerRadius="10dp"
+        android:color="#E1493F"
+        app:iconTint="#9E1717"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/takeImageBT"
-        app:layout_constraintVertical_bias="0.347" />
+        app:layout_constraintVertical_bias="0.347"
+        />
 
     <TextView
         android:id="@+id/textView5"
@@ -97,30 +121,37 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="28dp"
+        android:fontFamily="@font/roboto_light"
         android:text="Ubicar una nueva dirección en el mapa:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLocName" />
+        app:layout_constraintTop_toBottomOf="@+id/inputLocName"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_light"
         android:text="Dirección seleccionada: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addAddressBT" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <TextView
         android:id="@+id/selectedAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ninguna"
+        android:fontFamily="@font/roboto_light"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.111"
+        android:theme="@style/Theme.Challenge1.TextView"/>
 
     <ImageView
         android:id="@+id/preViewImg"
