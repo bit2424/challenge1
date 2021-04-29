@@ -2,10 +2,13 @@ package com.example.challenge1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +16,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,19 +36,31 @@ public class MapsFragment extends Fragment {
     private OnChangeFragment observer;
     private AppModel model;
     private MarkerOptions currentPosition;
+    private ConstraintLayout closestLocationLayout;
 
     GoogleMap.OnMapClickListener clickListener = new GoogleMap.OnMapClickListener() {
         @Override
         public void onMapClick(LatLng pos) {
-
-            if(model.isCreating()){
+            if(model.getState() == model.STATE_CREATING){
                 //Toast toast = Toast.makeText(getContext(), "Seleccionaste: "+String.valueOf(pos.latitude)+" , "+String.valueOf(pos.longitude), Toast.LENGTH_SHORT);
                 Toast toast = Toast.makeText(getContext(), "Haz seleccionado una nueva ubicación!", Toast.LENGTH_SHORT);
                 toast.show();
                 nMap.clear();
                 nMap.addMarker(new MarkerOptions().position(pos).title("Nueva Locación"));
                 model.getNewItem().setMyLocation(pos);
+            }else if(model.getState() == model.STATE_E_LOOKING){
+                model.setState(model.STATE_G_LOOKING);
+                closestLocationLayout.setVisibility(View.GONE);
+                model.updateDistance();
+                setInitialPos();
             }
+
+        }
+    };
+
+    GoogleMap.OnCameraMoveListener moveListener = new GoogleMap.OnCameraMoveListener() {
+        @Override
+        public void onCameraMove() {
 
         }
     };
@@ -53,7 +70,7 @@ public class MapsFragment extends Fragment {
         public void onLocationChanged(Location location) {
             LatLng myPos = new LatLng(location.getLatitude(),location.getLongitude());
             //Here is where I ask my distance between stored locations
-            updateLocation(myPos);
+            updateLocation(myPos,12);
         }
 
         @Override
@@ -85,7 +102,7 @@ public class MapsFragment extends Fragment {
                     myLocationListener);
 
             nMap.setOnMapClickListener(clickListener);
-
+            nMap.setOnCameraMoveListener(moveListener);
             setInitialPos();
         }
     };
@@ -101,6 +118,7 @@ public class MapsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        closestLocationLayout = getActivity().findViewById(R.id.closestLocationLayout);
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -117,24 +135,65 @@ public class MapsFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void setInitialPos(){
         Location location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location != null) {
-            LatLng myPos = new LatLng(location.getLatitude(), location.getLongitude());
-            updateLocation(myPos);
-            model.getNewItem().setMyLocation(myPos);
-            nMap.addMarker(new MarkerOptions().position(myPos).title("Ubicación Actual").icon(BitmapDescriptorFactory.defaultMarker(50)));
+        LatLng myPos;
+
+        if(model.getState() == model.STATE_E_LOOKING){
+            showBottomLayout(model.getShwItem());
+            myPos = model.getShwItem().getMyLocation();
+            updateLocation(myPos,17);
+            showToast("El marcador rojo es el lugar selecionado!",Toast.LENGTH_SHORT);
+            nMap.addMarker(new MarkerOptions().position(myPos).title(model.getShwItem().getName()).icon(BitmapDescriptorFactory.defaultMarker(0)));
+            if(location != null) {
+                model.setUserLocation( new LatLng(location.getLatitude(), location.getLongitude()));
+            }else{
+                showToast("Por favor enciende tu GPS!",Toast.LENGTH_SHORT);
+            }
+        }else{
+            if(location != null) {
+                showToast("El marcador amarillo es su posición actual y los azules son lugares agregados!",Toast.LENGTH_LONG);
+                myPos = new LatLng(location.getLatitude(), location.getLongitude());
+                updateLocation(myPos,12);
+                model.setUserLocation(myPos);
+                model.getNewItem().setMyLocation(myPos);
+                nMap.clear();
+                nMap.addMarker(new MarkerOptions().position(myPos).title("Ubicación Actual").icon(BitmapDescriptorFactory.defaultMarker(50)));
+            }else{
+                showToast("Por favor enciende tu GPS!",Toast.LENGTH_SHORT);
+
+            }
         }
+
+
+
+    }
+
+    private void showBottomLayout(LocationItem item) {
+        closestLocationLayout.setVisibility(View.VISIBLE);
+        ((TextView)getActivity().findViewById(R.id.closestLocationName)).setText(item.getName());
+        ((TextView)getActivity().findViewById(R.id.closestLocationAddress)).setText(item.getAddress());
+        Bitmap image = BitmapFactory.decodeFile(item.getImageSrc());
+        Bitmap thumbnail = Bitmap.createScaledBitmap(
+                image,image.getWidth()/4, image.getHeight()/4,true
+        );
+        ((ImageView)getActivity().findViewById(R.id.closestLocationIMG)).setImageBitmap(thumbnail);
+
     }
 
     public void setObserver(OnChangeFragment observer) {
         this.observer = observer;
     }
 
-    private  void updateLocation(LatLng pos){
+    private  void updateLocation(LatLng pos, int zoom){
         //nMap.addMarker(new MarkerOptions().position(pos).title("Yo"));
-        nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos,12));
+        nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos,zoom));
     }
 
     public void setModel(AppModel model) {
         this.model = model;
+    }
+
+    private void showToast(String message, int length){
+        Toast toast = Toast.makeText(getContext(), message, length);
+        toast.show();
     }
 }

@@ -2,6 +2,7 @@ package com.example.challenge1;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +19,13 @@ public class LocItemView extends RecyclerView.ViewHolder {
     private TextView locationScore;
     private TextView distance;
     private ImageView locationImg;
-    private Button locationViewBT;
+    private ImageButton locationViewBT;
+
+    private LocationItem item;
+
+    private LocItemAdapter observer;
+
+
 
 
     public LocItemView(ConstraintLayout root) {
@@ -28,6 +35,12 @@ public class LocItemView extends RecyclerView.ViewHolder {
         locationScore = root.findViewById(R.id.locationScore);
         locationImg = root.findViewById(R.id.locationImg);
         distance = root.findViewById(R.id.distance);
+        locationViewBT = root.findViewById(R.id.locationViewBT);
+        locationViewBT.setOnClickListener(
+                (View v)->{
+                    observer.onViewLocation(this.item);
+                }
+        );
         //locationViewBT = root.findViewById(R.id.locationViewBT);
     }
 
@@ -51,7 +64,13 @@ public class LocItemView extends RecyclerView.ViewHolder {
         return locationImg;
     }
 
-    public Button getLocationViewBT() {
-        return locationViewBT;
+    public ImageButton getLocationViewBT() {return locationViewBT;}
+
+    public void setItem(LocationItem item) { this.item = item; }
+
+    public LocationItem getItem() { return item; }
+
+    public void setObserver(LocItemAdapter locItemAdapter) {
+        observer = locItemAdapter;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.challenge1;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> {
+public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> implements  OnLocItemAction{
 
     private ArrayList<LocationItem> items;
     private ArrayList<LocationItem> shcItems;
 
+    private OnLocItemAction obsever;
+
     public LocItemAdapter() {
         items = new ArrayList<>();
         shcItems = new ArrayList<>();
-        items.add(new LocationItem("LOL","asdf asdfa","No dir",0));
     }
 
     public void addItem(LocationItem item){
@@ -32,28 +35,27 @@ public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> {
     public LocItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View row = inflater.inflate(R.layout.loc_item_row, null);
+        View row = inflater.inflate(R.layout.loc_item_row, parent,false);
         ConstraintLayout rowroot = (ConstraintLayout) row;
         LocItemView locItemView = new LocItemView(rowroot);
+        locItemView.setObserver(this);
         return locItemView;
     }
 
     @Override
     public void onBindViewHolder(@NonNull LocItemView holder, int position) {
-        if(shcItems.size() == 0){
-            LocationItem item = items.get(position);
-            holder.getLocationName().setText(item.getName());
-            holder.getLocationScore().setText(String.valueOf(item.getScore()));
-            //holder.getDistance().setText(String.valueOf(item.getUserDistance()));
-            //Set the other parameters of the view
-        }else{
-            LocationItem item = shcItems.get(position);
-            holder.getLocationName().setText(item.getName());
-            holder.getLocationScore().setText(String.valueOf(item.getScore()));
-            //holder.getDistance().setText(String.valueOf(item.getUserDistance()));
-            //Set the other parameters of the view
-        }
-
+        LocationItem item = items.get(position);
+        /*if(shcItems.size() == 0){
+            item = shcItems.get(position);
+        }*/
+        holder.setItem(item);
+        holder.getLocationName().setText(item.getName());
+        holder.getLocationScore().setText(String.valueOf(item.getScore()+1));
+        Bitmap image = BitmapFactory.decodeFile(item.getImageSrc());
+        Bitmap thumbnail = Bitmap.createScaledBitmap(
+                image,image.getWidth()/4, image.getHeight()/4,true
+        );
+        holder.getLocationImg().setImageBitmap(thumbnail);
     }
 
     @Override
@@ -63,6 +65,7 @@ public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> {
 
     public void setItems(ArrayList<LocationItem> items) {
         this.items = items;
+        this.notifyDataSetChanged();
     }
 
     public void searchPlace(String searching){
@@ -74,7 +77,14 @@ public class LocItemAdapter extends RecyclerView.Adapter<LocItemView> {
             }
             //Si cumple que son iguales lo metes en shcItems
         }
+    }
 
+    public void setObsever(OnLocItemAction obsever) {
+        this.obsever = obsever;
+    }
 
+    @Override
+    public void onViewLocation(LocationItem item) {
+        obsever.onViewLocation(item);
     }
 }

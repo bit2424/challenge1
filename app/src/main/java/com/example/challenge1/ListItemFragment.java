@@ -15,7 +15,7 @@ import android.view.ViewGroup;
  * Use the {@link ListItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListItemFragment extends Fragment {
+public class ListItemFragment extends Fragment implements  OnLocItemAction{
 
     private RecyclerView locItemViewList;
     private LinearLayoutManager layoutManager;
@@ -43,6 +43,7 @@ public class ListItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         adpater.setItems(model.getItems());
+        adpater.setObsever(this);
         View root = inflater.inflate(R.layout.fragment_list_item,container,false);
         locItemViewList = root.findViewById(R.id.locItemsViewList);
         locItemViewList.setHasFixedSize(true);
@@ -58,5 +59,12 @@ public class ListItemFragment extends Fragment {
     public void setModel(AppModel model) {  this.model = model; }
     public void setObserver(OnChangeFragment observer) {
         this.observer = observer;
+    }
+
+    @Override
+    public void onViewLocation(LocationItem item) {
+        observer.requestFragment(R.id.mapLocation);
+        model.setState(model.STATE_E_LOOKING);
+        model.setShwItem(item);
     }
 }

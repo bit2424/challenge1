@@ -60,4 +60,12 @@ public class LocationItem {
     public void setMyLocation(LatLng myLocation) {
         this.myLocation = myLocation;
     }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
 }

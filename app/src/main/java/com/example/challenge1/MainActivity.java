@@ -2,10 +2,12 @@ package com.example.challenge1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,14 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        }, 1);
+
          model = new AppModel();
 
         newLocationFragment = NewLocationFragment.newInstance();
@@ -50,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
                         if(model.getNewItem().getMyLocation() != null){
                             changeFragment(R.id.newLocatrion);
                             addMapAddress.setVisibility(View.GONE);
-                            model.setCreating(false);
+                            model.setState(model.STATE_G_LOOKING);
                         }else{
                             Toast toast = Toast.makeText(v.getContext(), "Selecciona una ubicación en el mapa", Toast.LENGTH_SHORT);
                             toast.show();
@@ -79,10 +89,26 @@ public class MainActivity extends AppCompatActivity implements OnChangeFragment{
     private void changeFragment(int itemId) {
         switch (itemId){
             case R.id.newLocatrion:
+                if(model.getState() == model.STATE_E_LOOKING){
+                    closestLocationLayout.setVisibility(View.GONE);
+                    model.setState(model.STATE_G_LOOKING);
+                }
+                if(model.getState() == model.STATE_CREATING){
+                    addMapAddress.setVisibility(View.GONE);
+                    model.setState(model.STATE_G_LOOKING);
+                }
                 showFragment(newLocationFragment);
                 break;
 
             case R.id.listLocation:
+                if(model.getState() == model.STATE_E_LOOKING){
+                    closestLocationLayout.setVisibility(View.GONE);
+                    model.setState(model.STATE_G_LOOKING);
+                }
+                if(model.getState() == model.STATE_CREATING){
+                    addMapAddress.setVisibility(View.GONE);
+                    model.setState(model.STATE_G_LOOKING);
+                }
                 showFragment(listItemFragment);
                 break;
 
